@@ -11,6 +11,7 @@ import tkinter.ttk
 
 import graph
 import LineMap
+import RealTimeDv
 
 g_Tk = Tk()
 g_Tk.geometry('900x650')
@@ -25,7 +26,8 @@ query = '/' + api_key + '/xml/subwayStationMaster/'
 
 #호선명
 SGGUCD = [['1/10','1호선'], ['11/60','2호선'], ['61/94','3호선'],
-          ['95/97','진접선'], ['98/123','4호선'], ['124/130','경부선']]
+          ['95/97','진접선'], ['98/123','4호선'], ['124/130','경부선']
+          , ['131/145','경원선'], ['146/153','분당선'], ['388/443','5호선']]
 
 '''import http.client
 conn = http.client.HTTPConnection(url)
@@ -71,7 +73,7 @@ def InitSearchListBox():
                             width=8, height=5, borderwidth= 12, relief='ridge',
                             yscrollcommand=ListBoxScrollbar.set)
     
-    for i in range(6):
+    for i in range(9):
         SearchListBox.insert(i+1, SGGUCD[i][1])
         
     SearchListBox.pack()
@@ -164,6 +166,39 @@ def Search(sgguCD):
         m.save('map.html')
         browser.Reload()
 
+def LSearch():
+    surl = 'http://openapi.seoul.go.kr:8088/' + api_key + '/xml/subwayStationMaster/1/500'
+    response = requests.get(surl)
+    root = ET.fromstring(response.content)
+    maps = root.findall('row')
+
+    Station = []
+    for i in maps:
+        mapping = {
+            'Name': i.findtext('STATN_NM'),
+            'route': i.findtext('ROUTE'),
+            'Ypos': i.findtext('CRDNT_Y'),
+            'Xpos': i.findtext('CRDNT_X')
+        }
+        Station.append(mapping)
+
+    print(Station[0]['Name'])
+
+    path = inputBox.get()
+    print(path)
+
+    for name in Station:
+        if name["Name"] == path:
+            Sname = name['Name']
+            start_Y = name['Ypos']
+            Start_X = name['Xpos']
+
+    m = folium.Map(location=[start_Y, Start_X], zoom_start=13)
+    folium.Marker([start_Y, Start_X], popup=Sname).add_to(m)
+
+    m.save('map.html')
+    browser.Reload()
+
 def InitRenderText():
     global RenderText
 
@@ -198,12 +233,21 @@ notebook.add(frame5, text='실시간')
 #frame2.pack()
 #frame2.place(x=300,y=180)
 
+NameLabel = Label(g_Tk, text='역 이름')
+NameLabel.pack()
+NameLabel.place(x=10, y=210)
+
 inputBox = Entry(g_Tk)
 inputBox.pack()
-inputBox.place(x = 15, y= 200)
+inputBox.place(x = 55, y= 210, width= 100, height= 22)
+
+Sbutton = Button(g_Tk, text='찾기', command=LSearch)
+Sbutton.pack()
+Sbutton.place(x=165, y=210)
 
 graph.initGraph(frame4)
 LineMap.InitMap(frame3)
+RealTimeDv.InitRealTime(frame5)
 
 setup()
 g_Tk.mainloop()
