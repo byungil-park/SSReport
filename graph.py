@@ -22,8 +22,6 @@ def initGraph(frame):
     line.grid(row=0, column=0, padx=50)
     station_entry = Entry(bframe)
     station_entry.grid(row=0, column=1)
-    Button(bframe, text=" < ", command=prebutton).grid(row=0, column=2)
-    Button(bframe, text=" > ", command=nextbutton).grid(row=0, column=3)
     Button(bframe, text="Update Graph", command=lambda: UpdateGraph(line.get(), station_entry.get())).grid(row=0, column=4)
 
 def getCard(line='',station=''):
@@ -80,7 +78,7 @@ def drowGraph():
         if mx != 0:
             y = bt - (data[i] * 380 / mx * per)
             y2 = bt - (data[i + 1] * 380 / mx * per)
-            canvas.create_line(x, y, x + 21, y2, width=3, fill='SeaGreen3', tag='d')
+            canvas.create_line(x, y, x + 21, y2, width=3, fill='cyan', tag='d')
         canvas.create_text(x, bt + 10, text=str((i + 4) % 25), tag='d')
 
     canvas.create_line(lt, tp, lt, bt, lt + 520, bt, width=7, arrow='both')
