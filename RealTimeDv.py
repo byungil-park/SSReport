@@ -8,7 +8,7 @@ from urllib.parse import quote_plus
 
 DataList = []
 url = 'swopenapi.seoul.go.kr'
-api_key = '45776f564262626937304e77454758'
+api_key = ''
 query = '/api/subway/' + api_key + '/xml/realtimeStationArrival/0/30/'
 
 
