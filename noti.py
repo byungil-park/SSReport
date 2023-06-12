@@ -15,8 +15,8 @@ import traceback
 from xml.etree import ElementTree as ET
 from urllib.parse import quote_plus
 
-key = '45776f564262626937304e77454758'
-TOKEN = '6078208718:AAFSmWSFCD6TLWy1S5IcNONikf7_w9Fql8c'
+key = ''
+TOKEN = ''
 MAX_MSG_LENGTH = 300
 baseurl = 'swopenapi.seoul.go.kr/'+key + '/xml/realtimeStationArrival/0/30/'
 bot = telepot.Bot(TOKEN)
