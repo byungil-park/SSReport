@@ -18,7 +18,7 @@ def initGraph(frame):
     bframe = Frame(frame,bg='black')
     bframe.pack( fill='x')
     line = ttk.Combobox(bframe, values=v,state='readonly')
-    line.current(0)
+    #line.current(0)
     line.grid(row=0, column=0, padx=50)
     station_entry = Entry(bframe)
     station_entry.grid(row=0, column=1)
@@ -26,7 +26,7 @@ def initGraph(frame):
 
 def getCard(line='',station=''):
     global data
-    key = ''
+    key = '457176674862626937344c59444a50'
     url = 'http://openAPI.seoul.go.kr:8088/' +key +'/xml/CardSubwayTime/' + '1/5/' + '201901/' + quote_plus(line+'/'+station) + '/'
     req = Request(url)
     req.get_method = lambda: 'GET'
